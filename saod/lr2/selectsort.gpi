@@ -1,0 +1,6 @@
+#! /usr/bin/gnuplot -persist
+#set terminal x11
+set xlabel 'n'
+set ylabel 'C+M'
+set grid xtics ytics
+plot "selectsort.txt" with lines title "BubbleSort"

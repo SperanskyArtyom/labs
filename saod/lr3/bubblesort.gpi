@@ -1,0 +1,7 @@
+#! /usr/bin/gnuplot -persist
+set terminal wxt size 1696, 861
+set xlabel 'n'
+set logscale y
+set grid xtics ytics #linestyle -1
+set ylabel 'C+M'
+plot "bubblesort.txt" with lines title "BubbleSort"
