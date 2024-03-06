@@ -5,39 +5,37 @@
 
 using namespace std;
 
-typedef struct SL
+typedef struct StudentList
 {
     string surname;
     int *grades;
-    SL *next;
+    StudentList *next;
 } StudentList;
-
-typedef struct Node
-{
-    int value;
-    struct Node *next;
-} Node;
 
 void addStudent(StudentList **head, string surname, int *grade);
 void sortBySurnames(StudentList **studentsArr, int size);
 
 int main()
 {
-    srand(time(NULL));
+    srand(time(nullptr));
     // Задание 1
-    StudentList *students = NULL;
+    StudentList *students = nullptr;
     string surnames[] = {"Сперанский", "Калашникова", "Фридрих", "Гуляев", "Брунилин", "Шильников", "Щукин", "Аникеев", "Цибулевич", "Халиков"};
     //  Генерируем список студентов
     for (int i = 0; i < 10; i++)
     {
         string surnameBuff = surnames[i];
-        int gradeBuff[4];
+        int *gradeBuff = new int[4];
+        int randomtoken;
         for (int j = 0; j < 4; j++)
-            gradeBuff[j] = rand() % 4 + 2;
+        {
+            randomtoken = rand() % 4 + 2;
+            gradeBuff[j] = randomtoken;
+        }
         addStudent(&students, surnameBuff, gradeBuff);
     }
-    StudentList **indexArr = (StudentList **)malloc(10 * sizeof(StudentList));
-    if (indexArr == NULL)
+    StudentList **indexArr = new StudentList *[10];
+    if (indexArr == nullptr)
         return 1;
 
     StudentList *currentStudent = students;
@@ -54,14 +52,15 @@ int main()
             cout << (*indexArr[i]).grades[j] << ' ';
         cout << endl;
     }
+    free(indexArr);
     return 0;
 }
 
-void addStudent(StudentList **head, string surname, int *grade)
+void addStudent(StudentList **head, string surname, int *grades)
 {
-    StudentList *temp = (StudentList *)malloc(sizeof(StudentList));
+    StudentList *temp = new StudentList;
     temp->next = *head;
-    temp->grades = grade;
+    temp->grades = grades;
     temp->surname = surname;
     *head = temp;
 }
