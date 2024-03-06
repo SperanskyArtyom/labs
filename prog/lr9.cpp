@@ -2,14 +2,15 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
+#include <utility>
 
 using namespace std;
 
 typedef struct StudentList
 {
     string surname;
-    int *grades;
-    StudentList *next;
+    int *grades{};
+    StudentList *next{};
 } StudentList;
 
 void addStudent(StudentList **head, string surname, int *grade);
@@ -22,22 +23,16 @@ int main()
     StudentList *students = nullptr;
     string surnames[] = {"Сперанский", "Калашникова", "Фридрих", "Гуляев", "Брунилин", "Шильников", "Щукин", "Аникеев", "Цибулевич", "Халиков"};
     //  Генерируем список студентов
-    for (int i = 0; i < 10; i++)
+    for (const auto& surnameBuff : surnames)
     {
-        string surnameBuff = surnames[i];
         int *gradeBuff = new int[4];
-        int randomtoken;
         for (int j = 0; j < 4; j++)
         {
-            randomtoken = rand() % 4 + 2;
-            gradeBuff[j] = randomtoken;
+            gradeBuff[j] = rand() % 4 + 2;
         }
         addStudent(&students, surnameBuff, gradeBuff);
     }
-    StudentList **indexArr = new StudentList *[10];
-    if (indexArr == nullptr)
-        return 1;
-
+    auto **indexArr = new StudentList *[10];
     StudentList *currentStudent = students;
     for (int i = 0; i < 10; i++)
     {
@@ -58,10 +53,10 @@ int main()
 
 void addStudent(StudentList **head, string surname, int *grades)
 {
-    StudentList *temp = new StudentList;
+    auto *temp = new StudentList;
     temp->next = *head;
     temp->grades = grades;
-    temp->surname = surname;
+    temp->surname = std::move(surname);
     *head = temp;
 }
 
