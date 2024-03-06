@@ -1,4 +1,4 @@
-all: lr1 lr2 lr3 lr4 lr5 lr6 lr7 lr8
+all: lr1 lr2 lr3 lr4 lr5 lr6 lr7 lr8 lr9
 
 lr1: lr1.c
 	gcc -o lr1 lr1.c -lm
@@ -14,8 +14,10 @@ lr6: lr6.cpp
 	g++ -o lr6 lr6.cpp -lm
 lr7: lr7.cpp
 	g++ -o lr7 lr7.cpp
-lr8: lr7.cpp
+lr8: lr8.cpp
 	g++ -o lr8 lr8.cpp
+lr9: lr9.cpp
+	g++ -o lr9 lr9.cpp
 
 .PHONY: clean
 clean:
