@@ -29,7 +29,6 @@ clean:
 tab1: table1
 	./table1
 
-
 tab2: table2
 	./table2
 
