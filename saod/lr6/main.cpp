@@ -13,25 +13,26 @@ using namespace std;
 
 int main()
 {
+    int n = 100;
     system("clear");
     srand(time(nullptr));
-    int A[10];
+    int A[n];
     cout << "Dec Array\n";
-    FillDec(A, 10);
+    FillDec(A, n);
     int H[2];
-    int m = KnuthSequence(H, 10);
-    ShellSort(A, 10, H, m);
-    cout << "C: " << C << " M: " << M << " checksum: " << CheckSum(A, 10) << " series: " << RunNumbers(A, 10) << endl;
-    PrintMass(A, 10);
+    int m = KnuthSequence(H, n);
+    ShellSort(A, n, H, m);
+    cout << "C: " << C << " M: " << M << " checksum: " << CheckSum(A, n) << " series: " << RunNumbers(A, n) << endl;
+    
     cout << "Inc Array\n";
-    FillInc(A, 10);
-    ShellSort(A, 10, H, m);
-    cout << "C: " << C << " M: " << M << " checksum: " << CheckSum(A, 10) << " series: " << RunNumbers(A, 10) << endl;
-    PrintMass(A, 10);
+    FillInc(A, n);
+    ShellSort(A, n, H, m);
+    cout << "C: " << C << " M: " << M << " checksum: " << CheckSum(A, n) << " series: " << RunNumbers(A, n) << endl;
+    
     cout << "Rand Array\n";
-    FillRand(A, 10);
-    ShellSort(A, 10, H, m);
-    cout << "C: " << C << " M: " << M << " checksum: " << CheckSum(A, 10) << " series: " << RunNumbers(A, 10) << endl;
-    PrintMass(A, 10);
+    FillRand(A, n);
+    ShellSort(A, n, H, m);
+    cout << "C: " << C << " M: " << M << " checksum: " << CheckSum(A, n) << " series: " << RunNumbers(A, n) << endl;
+    
     return 0;
 }

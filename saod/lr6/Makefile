@@ -1,4 +1,4 @@
-all: table1 table2 main graphics
+all: table1 table2 main graphics graphics2
 
 main: main.o sorts.o service_procedures.o
 	g++ main.o sorts.o service_procedures.o -o main
@@ -12,33 +12,32 @@ table2: table2.o sorts.o service_procedures.o
 graphics: graphics.o sorts.o
 	g++ graphics.o sorts.o -o graphics
 
+graphics2: graphics2.o sorts.o
+	g++ graphics2.o sorts.o -o graphics2
+
+graphics3: graphics3.o sorts.o
+	g++ graphics3.o sorts.o -o graphics3
+
 graphics.o: graphics.cpp
+graphics2.o: graphics2.cpp
+graphics3.o: graphics3.cpp
 main.o: main.cpp
 table1.o: table1.cpp
 table2.o: table2.cpp
 service_procedures.o: service_procedures.cpp
 sorts.o: sorts.cpp
 
-.PHONY: clean run graph tab
+.PHONY: clean run graph tab1 tab2 cleanall graph2
 cleanall:
-	rm -rf *.o main graphics table1 table2 *.txt
+	rm -rf *.o main graphics table1 table2 *.txt graphics2 graphics3
 
 clean:
 	rm -rf *.o *.txt
-
-tab1: table1
-	./table1
-
-tab2: table2
-	./table2
-
-graph: graphics
-	./graphics
-	./graphics.gpi
 
 run:
 	clear
 	./table1
 	./table2
 	./graphics
-	./graphics.gpi
+	./graphics2
+	./graphics3

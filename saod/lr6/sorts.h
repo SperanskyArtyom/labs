@@ -12,5 +12,9 @@ void InsertSort(int *sortArr, int size);
 void kSort (int sortArr[], int size, int k);
 void ShellSort(int sortArr[], int size, const int H[], int m);
 int KnuthSequence(int *H, int n);
+void SedgewickSequence(int sequence[], int size);
+int sejsize (int N);
+void FibbonachiSequence(int sequence[], int size);
+int fibsize (int N);
 
 #endif //LR6_SORTS_H

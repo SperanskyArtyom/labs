@@ -11,15 +11,15 @@ using namespace std;
 
 extern int M, C;
 
-int Params[3];
+int Params[4];
 void SortIntensives(int[], int);
 
 int main()
 {
     srand(time(NULL));
     int *A;
-    float winSizeX = 800, winSizeY = 400;
-    int dy = (winSizeY - 20) / 6, dx = (winSizeX - 20) / 4;
+    float winSizeX = 900, winSizeY = 350;
+    int dy = (winSizeY - 20) / 6, dx = (winSizeX - 20) / 5;
     RenderWindow window(VideoMode(winSizeX, winSizeY), L"Трудоемкость метода Шелла");
 
     Image icon;
@@ -35,20 +35,20 @@ int main()
         return -1;
     }
 
-    Text text[24];
-    for (int i = 0; i < 24; i++)
+    Text text[30];
+    for (int i = 0; i < 30; i++)
     {
         text[i].setFont(font);
-        text[i].setCharacterSize(24);
+        text[i].setCharacterSize(20);
         text[i].setFillColor(Color::Black);
     }
-    for (int i = 4, N = 100; N <= 500; N += 100, i += 4)
+    for (int i = 5, N = 100; N <= 500; N += 100, i += 5)
     {
         A = (int *)malloc(N * sizeof(int));
         SortIntensives(A, N);
         text[i].setPosition(15 + dx/3, 20 + dy * (N / 100));
         text[i].setString(std::to_string(N));
-        for (int j = 0; j < 3; j++)
+        for (int j = 0; j < 4; j++)
         {
             text[i + j + 1].setPosition(15 + dx * (1 + j), 20 + dy * (N / 100));
             text[i + j + 1].setString(std::to_string(Params[j]));
@@ -60,8 +60,8 @@ int main()
     table.setOutlineThickness(1);
     table.setOutlineColor(Color::Black);
 
-    VertexArray lines(Lines, 16);
-    for (int i = 0; i < 16; i++)
+    VertexArray lines(Lines, 18);
+    for (int i = 0; i < 18; i++)
         lines[i].color = Color::Black;
     // rows
     for (int i = 0, y = 10 + dy; i < 10; i += 2, y += dy)
@@ -70,7 +70,7 @@ int main()
         lines[i + 1].position = Vector2f(winSizeX - 10, y);
     }
     // columns
-    for (int i = 10, x = 10 + dx; i < 16; i += 2, x += dx)
+    for (int i = 10, x = 10 + dx; i < 18; i += 2, x += dx)
     {
         lines[i].position = Vector2f(x, 10);
         lines[i + 1].position = Vector2f(x, winSizeY - 10);
@@ -79,15 +79,18 @@ int main()
     // // header
     text[0].setPosition(5 + dx/2,  20);
     text[0].setString("n");
-    text[1].setPosition(15 + dx, 10);
-    text[1].setString(L"     Количество\n   К-сортировок");
+    text[1].setPosition(15 + dx, 15);
+    text[1].setString(L"     Кол-во К-сорт.\n     по ф-ле Кнута");
     text[2].setPosition(15 + dx * 2, 20);
-    text[2].setString(L"\t  Insert M+C");
-    text[3].setPosition(15 + dx * 3, 20);
-    text[3].setString(L"\t  Select M+C");
+    text[2].setString(L"\t\tShell M+C");
+    text[3].setPosition(10 + dx * 3, 15);
+    text[3].setString(L"      Кол-во К-сорт.\n  по ф-ле Седжвика");
+    text[4].setPosition(15 + dx * 4, 20);
+    text[4].setString(L"\t\tShell M+C");
     for (int i = 1; i <= 5; i++)
     {
-        text[4 * i + 1].setPosition(dx + dx/2, 20 + dy * i);
+        text[5 * i + 1].setPosition(dx + dx/2, 20 + dy * i);
+        text[5 * i + 3].setPosition(3*dx + dx/2, 20 + dy * i);
     }
     while (window.isOpen())
     {
@@ -101,7 +104,7 @@ int main()
         window.clear(Color::White);
         window.draw(table);
         window.draw(lines);
-        for (int i = 0; i < 24; i++)
+        for (int i = 0; i < 30; i++)
             window.draw(text[i]);
         window.display();
     }
@@ -117,10 +120,14 @@ void SortIntensives(int arr[], int n)
         arr2[i] = arr[i];
     int m = (int)floor(std::log2(n)) - 1;
     Params[0] = m;
-    InsertSort(arr, n);
-    Params[1] = C+M;
     int H[m];
     KnuthSequence(H, n);
-    ShellSort(arr2, n, H, m);
-    Params[2] = C+M;
+    ShellSort(arr, n, H, m);
+    Params[1] = C+M;
+    m = sejsize(n);
+    Params[2] = m;
+    int H2[m];
+    SedgewickSequence(H2, m);
+    ShellSort(arr2, n, H2, m);
+    Params[3] = C+M;
 }

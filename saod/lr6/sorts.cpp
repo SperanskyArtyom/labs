@@ -160,3 +160,47 @@ int KnuthSequence(int *H , int n)
         H[i] = 2 * H[i-1] + 1;
     return m;
 }
+
+int Inc(int i)
+{
+    if (i % 2 == 0)
+        return (int)(9 * pow(2, i) - 9 * pow(2, i/2) + 1);
+    return  (int)(8*pow(2, i) - 6 * pow(2, (i+1)/2) + 1);
+}
+
+int sejsize (int N)
+{
+    int size = 0;
+    while (3 * Inc(size) <= N)
+        size++;
+    return size;
+}
+
+void SedgewickSequence(int sequence[], int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        sequence[i] = Inc(i);
+    }
+}
+
+int fibsize (int N)
+{
+    int fibbonachi = 0, size = 0;
+    while (fibbonachi < (N/2 - 1))
+    {
+        size++;
+        fibbonachi += size;
+    }
+    return size;
+}
+
+void FibbonachiSequence(int sequence[], int size)
+{
+    int fibbonachi = 0;
+    for (int i = 0; i < size; i++)
+    {
+        fibbonachi += i + 1;
+        sequence[i] = fibbonachi;
+    }
+}
