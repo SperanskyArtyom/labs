@@ -25,12 +25,17 @@ typedef struct DoublyLinkedList
 void addStudent(SinglyLinkedList **head, Student student);
 void sortBySurnames(SinglyLinkedList **studentsArr, int size);
 void addStudentToDoubly(DoublyLinkedList **head, Student student);
+void deleteNode(DoublyLinkedList *node);
 
 int main()
 {
+    setlocale(LC_ALL, "");
     srand(time(nullptr));
     // Задание 1
     SinglyLinkedList *students = nullptr;
+    DoublyLinkedList *students2 = new DoublyLinkedList;
+    students2->next = nullptr;
+    students2->previous = nullptr;
     string surnames[] = {"Сперанский", "Калашникова", "Фридрих", "Гуляев", "Брунилин", "Шильников", "Щукин", "Аникеев", "Цибулевич", "Халиков"};
     //  Генерируем список студентов
     for (const auto &surnameBuff : surnames)
@@ -42,15 +47,22 @@ int main()
         }
         dataBuffer.surname = surnameBuff;
         addStudent(&students, dataBuffer);
+        addStudentToDoubly(&students2, dataBuffer);
     }
     auto **indexArr = new SinglyLinkedList *[10];
     SinglyLinkedList *currentStudent = students;
+    cout << "Изначальный список студентов:\n";
     for (int i = 0; i < 10; i++)
     {
         indexArr[i] = currentStudent;
+        cout << currentStudent->data.surname;
+        for (int j = 0; j < 4; j++)
+            cout << ' ' << currentStudent->data.grades[j];
+        cout << endl;
         currentStudent = (*currentStudent).next;
     }
     sortBySurnames(indexArr, 10);
+    cout << "\n\nСписок студентов, отсортированный по фамиллии:\n";
     for (int i = 0; i < 10; i++)
     {
         cout << (*indexArr[i]).data.surname << "   ";
@@ -59,6 +71,39 @@ int main()
         cout << endl;
     }
     free(indexArr);
+
+    auto currentStudent2 = students2;
+
+    cout << "\n\nСписок студентов, сдавших сессию\n";
+    while (currentStudent2->previous != nullptr)
+    {
+        int isDeleted = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            if (currentStudent2->data.grades[i] < 3)
+            {
+                currentStudent2 = currentStudent2->previous;
+                deleteNode(currentStudent2->next);
+                isDeleted = 1;
+                break;
+            }
+        }
+        if (isDeleted == 0)
+            currentStudent2 = currentStudent2->previous;
+    }
+
+    currentStudent2 = currentStudent2->next;
+    while (true)
+    {
+        if (currentStudent2 == nullptr)
+            break;
+        cout << currentStudent2->data.surname << ' ';
+        for (int i = 0; i < 4; i++)
+            cout << currentStudent2->data.grades[i] << ' ';
+        cout << endl;
+        currentStudent2 = currentStudent2->next;
+    }
+
     return 0;
 }
 
@@ -67,9 +112,7 @@ void addStudent(SinglyLinkedList **head, Student student)
     auto *temp = new SinglyLinkedList;
     temp->next = *head;
     for (int i = 0; i < 4; i++)
-    {
         temp->data.grades[i] = student.grades[i];
-    }
     temp->data.surname = std::move(student.surname);
     *head = temp;
 }
@@ -83,6 +126,16 @@ void addStudentToDoubly(DoublyLinkedList **head, Student student)
     for (int i = 0; i < 4; i++)
         temp->data.grades[i] = student.grades[i];
     (*head)->next = temp;
+    *head = temp;
+}
+
+void deleteNode(DoublyLinkedList *node)
+{
+    if (node->previous != nullptr)
+        node->previous->next = node->next;
+    if (node->next != nullptr)
+        node->next->previous = node->previous;
+    delete node;
 }
 
 void sortBySurnames(SinglyLinkedList **studentsArr, int size)
