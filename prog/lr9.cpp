@@ -10,20 +10,27 @@ typedef struct
     int grades[4];
 } Student;
 
-typedef struct OneWayList
+typedef struct SinglyLinkedList
 {
     Student data;
-    OneWayList *next{};
-} OneWayList;
+    SinglyLinkedList *next{};
+} SinglyLinkedList;
 
-void addStudent(OneWayList **head, Student student);
-void sortBySurnames(OneWayList **studentsArr, int size);
+typedef struct DoublyLinkedList
+{
+    Student data;
+    DoublyLinkedList *previous, *next;
+} DoublyLinkedList;
+
+void addStudent(SinglyLinkedList **head, Student student);
+void sortBySurnames(SinglyLinkedList **studentsArr, int size);
+void addStudentToDoubly(DoublyLinkedList **head, Student student);
 
 int main()
 {
     srand(time(nullptr));
     // Задание 1
-    OneWayList *students = nullptr;
+    SinglyLinkedList *students = nullptr;
     string surnames[] = {"Сперанский", "Калашникова", "Фридрих", "Гуляев", "Брунилин", "Шильников", "Щукин", "Аникеев", "Цибулевич", "Халиков"};
     //  Генерируем список студентов
     for (const auto &surnameBuff : surnames)
@@ -36,8 +43,8 @@ int main()
         dataBuffer.surname = surnameBuff;
         addStudent(&students, dataBuffer);
     }
-    auto **indexArr = new OneWayList *[10];
-    OneWayList *currentStudent = students;
+    auto **indexArr = new SinglyLinkedList *[10];
+    SinglyLinkedList *currentStudent = students;
     for (int i = 0; i < 10; i++)
     {
         indexArr[i] = currentStudent;
@@ -55,9 +62,9 @@ int main()
     return 0;
 }
 
-void addStudent(OneWayList **head, Student student)
+void addStudent(SinglyLinkedList **head, Student student)
 {
-    auto *temp = new OneWayList;
+    auto *temp = new SinglyLinkedList;
     temp->next = *head;
     for (int i = 0; i < 4; i++)
     {
@@ -67,9 +74,20 @@ void addStudent(OneWayList **head, Student student)
     *head = temp;
 }
 
-void sortBySurnames(OneWayList **studentsArr, int size)
+void addStudentToDoubly(DoublyLinkedList **head, Student student)
 {
-    OneWayList *temp;
+    auto *temp = new DoublyLinkedList;
+    temp->previous = *head;
+    temp->next = nullptr;
+    temp->data.surname = std::move(student.surname);
+    for (int i = 0; i < 4; i++)
+        temp->data.grades[i] = student.grades[i];
+    (*head)->next = temp;
+}
+
+void sortBySurnames(SinglyLinkedList **studentsArr, int size)
+{
+    SinglyLinkedList *temp;
     for (int i = 0; i < size - 1; i++)
     {
         int k = i;
