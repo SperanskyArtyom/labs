@@ -22,20 +22,30 @@ typedef struct DoublyLinkedList
     DoublyLinkedList *previous, *next;
 } DoublyLinkedList;
 
+typedef struct Tree
+{
+    Student data;
+    Tree *left, *right;
+} Tree;
+
 void addStudent(SinglyLinkedList **head, Student student);
 void sortBySurnames(SinglyLinkedList **studentsArr, int size);
 void addStudentToDoubly(DoublyLinkedList **head, Student student);
 void deleteNode(DoublyLinkedList *node);
+void addStudentToTree(Tree* &node, Student data);
+void printSurnamesInc (Tree* node);
+void printSurnamesDec (Tree* node);
+Tree *search (Tree *node, string key);
 
 int main()
 {
-    setlocale(LC_ALL, "");
     srand(time(nullptr));
     // Задание 1
     SinglyLinkedList *students = nullptr;
     DoublyLinkedList *students2 = new DoublyLinkedList;
     students2->next = nullptr;
     students2->previous = nullptr;
+    Tree *root = nullptr;
     string surnames[] = {"Сперанский", "Калашникова", "Фридрих", "Гуляев", "Брунилин", "Шильников", "Щукин", "Аникеев", "Цибулевич", "Халиков"};
     //  Генерируем список студентов
     for (const auto &surnameBuff : surnames)
@@ -48,6 +58,7 @@ int main()
         dataBuffer.surname = surnameBuff;
         addStudent(&students, dataBuffer);
         addStudentToDoubly(&students2, dataBuffer);
+        addStudentToTree(root, dataBuffer);
     }
     auto **indexArr = new SinglyLinkedList *[10];
     SinglyLinkedList *currentStudent = students;
@@ -62,19 +73,19 @@ int main()
         currentStudent = (*currentStudent).next;
     }
     sortBySurnames(indexArr, 10);
-    cout << "\n\nСписок студентов, отсортированный по фамиллии:\n";
+    cout << "\nСписок студентов, отсортированный по фамилии:\n";
     for (int i = 0; i < 10; i++)
     {
-        cout << (*indexArr[i]).data.surname << "   ";
+        cout << (*indexArr[i]).data.surname;
         for (int j = 0; j < 4; j++)
-            cout << (*indexArr[i]).data.grades[j] << ' ';
+            cout << ' ' << (*indexArr[i]).data.grades[j];
         cout << endl;
     }
     free(indexArr);
-
+    getchar();
+    // Задание 2
     auto currentStudent2 = students2;
-
-    cout << "\n\nСписок студентов, сдавших сессию\n";
+    cout << "\nСписок студентов, сдавших сессию\n";
     while (currentStudent2->previous != nullptr)
     {
         int isDeleted = 0;
@@ -102,6 +113,25 @@ int main()
             cout << currentStudent2->data.grades[i] << ' ';
         cout << endl;
         currentStudent2 = currentStudent2->next;
+    }
+    getchar();
+    //Задание 3
+    system("clear");
+    cout << "Фамилии студентов по возрастанию:\n";
+    printSurnamesInc(root);
+    cout << "\nФамилии студентов по убыванию:\n";
+    printSurnamesDec(root);
+    cout << "\nВведите фамилию для поиска информации о студенте: ";
+    string key;
+    cin >> key;
+    Tree *foundedStudent = search(root, key);
+    if (!foundedStudent)
+        cout << "Студент не найден";
+    else
+    {
+        cout << foundedStudent->data.surname;
+        for (int i = 0; i < 4; i++)
+            cout << ' ' << foundedStudent->data.grades[i];
     }
 
     return 0;
@@ -155,4 +185,48 @@ void sortBySurnames(SinglyLinkedList **studentsArr, int size)
         studentsArr[i] = studentsArr[k];
         studentsArr[k] = temp;
     }
+}
+
+void addStudentToTree(Tree* &node, Student data)
+{
+    if (node == nullptr)
+    {
+        node = new Tree;
+        node->data = data;
+        node->left = node->right = nullptr;
+        return;
+    }
+    if (data.surname < node->data.surname)
+        addStudentToTree(node->left, data);
+    else
+        addStudentToTree(node->right, data);
+}
+
+void printSurnamesInc (Tree* node)
+{
+    if (!node)
+        return;
+    printSurnamesInc(node->left);
+    cout << node->data.surname << endl;
+    printSurnamesInc(node->right);
+}
+
+void printSurnamesDec (Tree* node)
+{
+    if (!node)
+        return;
+    printSurnamesDec(node->right);
+    cout << node->data.surname << endl;
+    printSurnamesDec(node->left);
+}
+
+Tree *search (Tree *node, string key)
+{
+    if (!node)
+        return nullptr;
+    if (node->data.surname == key)
+        return node;
+    if (key < node->data.surname)
+        return search(node->left, key);
+    return search(node->right, key);
 }
