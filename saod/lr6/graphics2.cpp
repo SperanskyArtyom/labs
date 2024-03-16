@@ -48,5 +48,6 @@ int main()
 
     fclose(fp);
     system("./graphics2.gpi");
+    getchar();
     return 0;
 }

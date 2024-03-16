@@ -66,5 +66,6 @@ int main()
 
     fclose(fp);
     system("./graphics.gpi");
+    getchar();
     return 0;
 }

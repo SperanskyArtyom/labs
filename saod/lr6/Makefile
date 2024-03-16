@@ -1,4 +1,4 @@
-all: table1 table2 main graphics graphics2
+all: table1 table2 main graphics graphics2 graphics3
 
 main: main.o sorts.o service_procedures.o
 	g++ main.o sorts.o service_procedures.o -o main
