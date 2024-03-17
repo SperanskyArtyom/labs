@@ -1,20 +1,22 @@
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
+#include <chrono>
 
 #include "sorts.h"
 
-const int ARR_SIZE = 2*10000;
-const int MAX_ELEMENT = 10000;
+using namespace std;
 
-double timer(void (*sortType)(int*, int), int *arr, int size);
-double timer(void (*sortType)(float*, int), float *arr, int size);
+const int ARR_SIZE = 3*10000;
+
+const int MAX_ELEMENT = 10000;
+float timer(void (*sortType)(int*, int), int *arr, int size);
+float timer(void (*sortType)(float*, int), float *arr, int size);
 void fillRand(int *arr, int size);
 void fillRand(float *arr, int size);
 void copyArr(const int *arrCopyFrom, int *arrayCopyTo, int size);
-void copyArr(const float *arrCopyFrom, float *arrCopyTo, int size);
 
-using namespace std;
+void copyArr(const float *arrCopyFrom, float *arrCopyTo, int size);
 
 int main() {
     srand(time(nullptr));
@@ -70,18 +72,18 @@ void copyArr(const float *arrCopyFrom, float *arrCopyTo, int size)
         arrCopyTo[i] = arrCopyFrom[i];
 }
 
-double timer(void (*sortType)(int*, int), int *arr, int size){
-    time_t start, end;
-    time(&start);
+float timer(void (*sortType)(int*, int), int *arr, int size){
+    auto start = chrono::steady_clock::now();
     sortType(arr, size);
-    time(&end);
-    return difftime(end, start);
+    auto end = chrono::steady_clock::now();
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    return (float) elapsed_ms.count() / 1000;
 }
 
-double timer(void (*sortType)(float*, int), float *arr, int size){
-    time_t start, end;
-    time(&start);
+float timer(void (*sortType)(float*, int), float *arr, int size){
+    auto start = chrono::steady_clock::now();
     sortType(arr, size);
-    time(&end);
-    return difftime(end, start);
+    auto end = chrono::steady_clock::now();
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    return (float) elapsed_ms.count() / 1000;
 }
