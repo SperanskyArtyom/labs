@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <vector>
 #include "service_procedures.h"
 #include "sorts.h"
 
@@ -109,9 +110,10 @@ void SortIntensives(int arr[], int n)
 {
     FillRand(arr, n);
     InsertSort(arr, n);
-//    int key = rand() % n;
-    int key = 0;
-    BSearchAll1(arr, n, arr[key]);
+    int key = rand() % n;
+//    int key = 0;
+    vector<int> c(0);
+    BSearchAll1(arr, n, arr[key], c);
     Params[0] = C;
     BSearchAll2(arr, n, arr[key]);
     Params[1] = C;

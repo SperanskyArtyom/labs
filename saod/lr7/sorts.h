@@ -21,7 +21,7 @@ void FibbonachiSequence(int sequence[], int size);
 int fibsize (int N);
 int BSearch1(const int arr[], int size, int key);
 int BSearch2 (const int arr[], int size, int key);
-std::vector<int> BSearchAll1(const int arr[], int size, int key);
+std::vector<int> BSearchAll1(const int arr[], int size, int key, std::vector<int> except);
 std::vector<int> BSearchAll2 (const int arr[], int size, int key);
 
 #endif //LR6_SORTS_H

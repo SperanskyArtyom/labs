@@ -11,8 +11,8 @@ void T_sorts(int n, int &t1, int &t2)
     int *arr = (int *)malloc(n * sizeof(int));
     FillRand(arr, n);
     InsertSort(arr, n);
-//    int key = rand() % n;
-    int key = 0;
+    int key = rand() % n;
+//    int key = 0;
     BSearch1(arr, n, arr[key]);
     t1 = C;
     BSearch2(arr, n, arr[key]);

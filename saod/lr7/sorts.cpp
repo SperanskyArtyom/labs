@@ -242,8 +242,19 @@ int BSearch2 (const int arr[], int size, int key)
     return -1;
 }
 
-std::vector<int> BSearchAll1(const int arr[], int size, int key)
+std::vector<int> BSearchAll1(const int arr[], int size, int key, std::vector<int> except)
 {
+    int arr2[size - except.size()];
+    if (!except.empty()){
+        int j = 0;
+        for (int i = 0; i < size - 1; i++) {
+            for (int item: except)
+                if (i == item)
+                    continue;
+            arr2[j] = arr[i];
+            j++;
+        }
+    }
     C = 0;
     int L = 0, R = size - 1, m;
     std::vector <int> indexes(0);
@@ -260,17 +271,8 @@ std::vector<int> BSearchAll1(const int arr[], int size, int key)
         else
             R = m - 1;
     }
-    if (!indexes.empty()){
-        L = m - 1, R = m + 1;
-        while (L > 0 && ++C && arr[L] == key){
-            indexes.push_back(L);
-            L--;
-        }
-        while (R < size && ++C && arr[R] == key){
-            indexes.push_back(R);
-            R++;
-        }
-    }
+    if (R != L)
+        indexes = BSearchAll1(arr, size, key, indexes);
     return indexes;
 }
 

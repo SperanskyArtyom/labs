@@ -109,8 +109,8 @@ void SortIntensives(int arr[], int n)
 {
     FillRand(arr, n);
     InsertSort(arr, n);
-//    int key = rand() % n;
-    int key = 0;
+    int key = rand() % n;
+//    int key = 0;
     BSearch1(arr, n, arr[key]);
     Params[0] = C;
     BSearch2(arr, n, arr[key]);
