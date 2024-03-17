@@ -8,8 +8,8 @@
 using namespace std;
 
 const int ARR_SIZE = 3*10000;
-
 const int MAX_ELEMENT = 10000;
+
 float timer(void (*sortType)(int*, int), int *arr, int size);
 float timer(void (*sortType)(float*, int), float *arr, int size);
 void fillRand(int *arr, int size);
