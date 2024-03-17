@@ -43,5 +43,6 @@ graphics
 graphics2
 graphics3
 *.txt
+*.dat
 main
 cmake-build-debug/
