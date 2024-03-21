@@ -64,7 +64,10 @@ int main() {
                 string key;
                 cin >> key;
                 auto keyIndexes = BSearchAllInPhoneDict(dict, indexesInc, N, key);
-                printPhoneDict(dict, keyIndexes);
+                if (keyIndexes.empty())
+                    cout << "Can't find any record with key - " << key << endl;
+                else
+                    printPhoneDict(dict, keyIndexes);
                 getchar();
                 getchar();
                 break;
@@ -120,27 +123,30 @@ bool entryMore(const phoneEntry& a, const phoneEntry& b)
 
 void printPhoneDict (const phoneEntry dict[], size_t size)
 {
+    cout << "Name:\tPhone number:\t\tGender\tAddress:\n";
     for (int i = 0; i < size; i++) {
-        cout << dict[i]._name + ' ' + dict[i]._phoneNumber;
-        dict[i]._gender == MALE ? cout << " Male " : cout << " Female ";
+        cout << dict[i]._name + '\t' + dict[i]._phoneNumber;
+        dict[i]._gender == MALE ? cout << "\tMale\t" : cout << "\tFemale\t";
         cout << dict[i]._address << endl;
     }
 }
 
 void printPhoneDict(const phoneEntry dict[], size_t size, const int indexArr[])
 {
+    cout << "Name:\tPhone number:\t\tGender\tAddress:\n";
     for (int i = 0; i < size; i++) {
-        cout << dict[indexArr[i]]._name + ' ' + dict[indexArr[i]]._phoneNumber;
-        dict[indexArr[i]]._gender == MALE ? cout << " Male " : cout << " Female ";
+        cout << dict[indexArr[i]]._name + '\t' + dict[indexArr[i]]._phoneNumber;
+        dict[indexArr[i]]._gender == MALE ? cout << "\tMale\t" : cout << "\tFemale\t";
         cout << dict[indexArr[i]]._address << endl;
     }
 }
 
 void printPhoneDict(const phoneEntry dict[], const vector<int>& indexArr)
 {
+    cout << "Name:\tPhone number:\t\tGender\tAddress:\n";
     for (int i : indexArr) {
-        cout << dict[i]._name + ' ' + dict[i]._phoneNumber;
-        dict[i]._gender == MALE ? cout << " Male " : cout << " Female ";
+        cout << dict[i]._name + '\t' + dict[i]._phoneNumber;
+        dict[i]._gender == MALE ? cout << "\tMale\t" : cout << "\tFemale\t";
         cout << dict[i]._address << endl;
     }
 }
