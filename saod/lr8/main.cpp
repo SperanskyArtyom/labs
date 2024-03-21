@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#include <cmath>
 
 using namespace std;
 
@@ -11,16 +13,18 @@ typedef struct {
     string _phoneNumber;
     gender _gender;
     string _address;
-} telephoneEntry;
+} phoneEntry;
 
-void printPhoneDict (const telephoneEntry dict[], size_t size);
-void printPhoneDict(const telephoneEntry dict[], size_t size, const int indexArr[]);
-void SortTelephoneDictionary(const telephoneEntry dict[], size_t size, int *indexArr, bool (*compare)(const telephoneEntry &, const telephoneEntry &));
-bool entryMore(const telephoneEntry& a, const telephoneEntry& b);
-bool entryLess(const telephoneEntry& a, const telephoneEntry& b);
+void printPhoneDict (const phoneEntry dict[], size_t size);
+void printPhoneDict(const phoneEntry dict[], size_t size, const int indexArr[]);
+void printPhoneDict(const phoneEntry dict[], const vector<int>& indexArr);
+void SortTelephoneDictionary(const phoneEntry dict[], size_t size, int *indexArr, bool (*compare)(const phoneEntry &, const phoneEntry &));
+vector<int> BSearchAllInPhoneDict (const phoneEntry dict[], const int indexArr[], size_t size, const string& key);
+bool entryMore(const phoneEntry& a, const phoneEntry& b);
+bool entryLess(const phoneEntry& a, const phoneEntry& b);
 
 int main() {
-    telephoneEntry dict[5];
+    phoneEntry dict[5];
     dict[0] = {"Artem", "+7-777-666-55-44", MALE, "Novosibirsk"};
     dict[1] = {"Artem", "+7-777-666-55-33", MALE, "Novosibirsk"};
     dict[2] = {"Artur", "+7-777-666-55-22", MALE, "Novosibirsk"};
@@ -36,10 +40,12 @@ int main() {
     printPhoneDict(dict, 5, indexesDec);
     cout << endl;
 
+    auto keyIndexes = BSearchAllInPhoneDict(dict, indexesInc, 5, "Artem");
+    printPhoneDict(dict, keyIndexes);
     return 0;
 }
 
-void SortTelephoneDictionary(const telephoneEntry dict[], size_t size, int *indexArr, bool (*compare)(const telephoneEntry &, const telephoneEntry &))
+void SortTelephoneDictionary(const phoneEntry dict[], size_t size, int *indexArr, bool (*compare)(const phoneEntry &, const phoneEntry &))
 {
     for (int i = 0; i < size; i++)
         indexArr[i] = i;
@@ -56,7 +62,7 @@ void SortTelephoneDictionary(const telephoneEntry dict[], size_t size, int *inde
     }
 }
 
-bool entryLess(const telephoneEntry& a, const telephoneEntry& b)
+bool entryLess(const phoneEntry& a, const phoneEntry& b)
 {
     if (a._name < b._name)
         return true;
@@ -68,7 +74,7 @@ bool entryLess(const telephoneEntry& a, const telephoneEntry& b)
 }
 
 
-bool entryMore(const telephoneEntry& a, const telephoneEntry& b)
+bool entryMore(const phoneEntry& a, const phoneEntry& b)
 {
     if (a._name > b._name)
         return true;
@@ -79,7 +85,7 @@ bool entryMore(const telephoneEntry& a, const telephoneEntry& b)
     return false;
 }
 
-void printPhoneDict (const telephoneEntry dict[], size_t size)
+void printPhoneDict (const phoneEntry dict[], size_t size)
 {
     for (int i = 0; i < size; i++) {
         cout << dict[i]._name + ' ' + dict[i]._phoneNumber;
@@ -88,11 +94,40 @@ void printPhoneDict (const telephoneEntry dict[], size_t size)
     }
 }
 
-void printPhoneDict(const telephoneEntry dict[], size_t size, const int indexArr[])
+void printPhoneDict(const phoneEntry dict[], size_t size, const int indexArr[])
 {
     for (int i = 0; i < size; i++) {
         cout << dict[indexArr[i]]._name + ' ' + dict[indexArr[i]]._phoneNumber;
         dict[indexArr[i]]._gender == MALE ? cout << " Male " : cout << " Female ";
         cout << dict[indexArr[i]]._address << endl;
     }
+}
+
+void printPhoneDict(const phoneEntry dict[], const vector<int>& indexArr)
+{
+    for (int i : indexArr) {
+        cout << dict[i]._name + ' ' + dict[i]._phoneNumber;
+        dict[i]._gender == MALE ? cout << " Male " : cout << " Female ";
+        cout << dict[i]._address << endl;
+    }
+}
+
+vector<int> BSearchAllInPhoneDict (const phoneEntry dict[], const int indexArr[], size_t size, const string& key)
+{
+    std::vector<int> indexes(0);
+    int L = 0, R = (int)size - 1;
+    while (L < R){
+        int m = floor((double)(L + R) / 2);
+        if (dict[indexArr[m]]._name < key)
+            L = m + 1;
+        else
+            R = m;
+    }
+    if (dict[indexArr[R]]._name == key) {
+        while (R < size && dict[indexArr[R]]._name == key) {
+            indexes.push_back(R);
+            R++;
+        }
+    }
+    return indexes;
 }
