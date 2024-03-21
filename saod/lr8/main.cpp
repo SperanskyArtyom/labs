@@ -24,25 +24,58 @@ bool entryMore(const phoneEntry& a, const phoneEntry& b);
 bool entryLess(const phoneEntry& a, const phoneEntry& b);
 
 int main() {
-    phoneEntry dict[5];
+    const size_t N = 5;
+    phoneEntry dict[N];
     dict[0] = {"Artem", "+7-777-666-55-44", MALE, "Novosibirsk"};
     dict[1] = {"Artem", "+7-777-666-55-33", MALE, "Novosibirsk"};
     dict[2] = {"Artur", "+7-777-666-55-22", MALE, "Novosibirsk"};
     dict[3] = {"Mariya", "+7-888-666-55-22", FEMALE, "Novosibirsk"};
     dict[4] = {"Mariya", "+7-111-222-33-44", FEMALE, "Moscow"};
-    int indexesInc[5], indexesDec[5];
-    SortTelephoneDictionary(dict, 5, indexesInc,entryLess);
-    SortTelephoneDictionary(dict, 5, indexesDec,entryMore);
-    printPhoneDict(dict, 5);
-    cout << endl;
-    printPhoneDict(dict, 5, indexesInc);
-    cout << endl;
-    printPhoneDict(dict, 5, indexesDec);
-    cout << endl;
+    int indexesInc[N], indexesDec[N];
+    SortTelephoneDictionary(dict, N, indexesInc,entryLess);
+    SortTelephoneDictionary(dict, N, indexesDec,entryMore);
 
-    auto keyIndexes = BSearchAllInPhoneDict(dict, indexesInc, 5, "Artem");
-    printPhoneDict(dict, keyIndexes);
-    return 0;
+    while (true){
+        system("clear");
+        cout << "Source phone directory:\n";
+        printPhoneDict(dict, N);
+        cout << "\nChose option:\n1 - Display the telephone directory sorted in ascending order"
+                "\n2 - Display the telephone directory, sorted in descending order"
+                "\n3 - Set the search key and display the found records"
+                "\n0 - Exit the program\n";
+        char ch;
+        cin >> ch;
+        system("clear");
+        switch (ch) {
+            case '1': {
+                printPhoneDict(dict, N, indexesInc);
+                getchar();
+                getchar();
+                break;
+            }
+            case '2': {
+                printPhoneDict(dict, N, indexesDec);
+                getchar();
+                getchar();
+                break;
+            }
+            case '3': {
+                cout << "Enter the search key: ";
+                string key;
+                cin >> key;
+                auto keyIndexes = BSearchAllInPhoneDict(dict, indexesInc, N, key);
+                printPhoneDict(dict, keyIndexes);
+                getchar();
+                getchar();
+                break;
+            }
+            case '0': {
+                return 0;
+            }
+            default:
+                break;
+        }
+    }
 }
 
 void SortTelephoneDictionary(const phoneEntry dict[], size_t size, int *indexArr, bool (*compare)(const phoneEntry &, const phoneEntry &))
