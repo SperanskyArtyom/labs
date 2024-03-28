@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <cmath>
+#include <cstdlib>
+#include <ctime>
 
 extern int M, C;
 
@@ -16,13 +18,14 @@ double M_theor(int N){
 }
 
 int main(){
-    const int N = 10;
-    cout << "C теор " << C_theor(N) << " М теор " << M_theor(N) << '\n';
+    srand(time(nullptr));
+    const int N = 500;
+    cout << "C + M теор " << C_theor(N) + M_theor(N) << '\n';
     int arr[N];
-    FillInc(arr, N);
-    PrintMass(arr, N);
+    FillRand(arr, N);
+//    PrintMass(arr, N);
     HeapSort(arr, N);
-    PrintMass(arr, N);
-    cout << "С факт " << C << " М факт " << M << '\n';
+//    PrintMass(arr, N);
+    cout << "С + M fact " << C + M << '\n';
     return 0;
 }
