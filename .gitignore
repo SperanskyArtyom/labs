@@ -46,3 +46,4 @@ graphics3
 *.dat*
 main
 cmake-build-debug/
+bin/
