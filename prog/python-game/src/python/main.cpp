@@ -5,17 +5,18 @@
 using namespace sf;
 using namespace std;
 
-void ChangeDirection(direction &dir, direction previousDir);
-void drawSnake(RenderWindow &window, vector<Snake> snakePositions, Sprite snake, direction dir);
-void drawMenu(RenderWindow &window);
-void drawGameOver(RenderWindow &window, unsigned int currentScore, unsigned int bestScore);
-
 Font font;
 RectangleShape deathBlock, menuBlock;
 Text deathMessage, menuMessage;
-const unsigned int winSizeX = 620, winSizeY = 660, segmentSize = 40;
-const float fieldW = 600, margin = (winSizeX - fieldW) / 2,
-menuBlockW = 350, menuBlockH = 120, deathBlockW = 400, deathBlockH = 300;
+const unsigned  winSizeX = 620,   winSizeY = 660,   segmentSize = 40,  fieldW = 600,
+        menuBlockW = 350, menuBlockH = 120, deathBlockW = 400, deathBlockH = 300;
+const float margin = (winSizeX - fieldW) / 2;
+
+void ChangeDirection(direction &dir, direction previousDir);
+void drawSnake(RenderWindow &window, vector<Snake> snakePositions, Sprite snake, direction dir);
+void drawMenu(RenderWindow &window);
+
+void drawGameOver(RenderWindow &window, unsigned currentScore, unsigned bestScore);
 
 int main() {
 
@@ -24,7 +25,7 @@ int main() {
 
     FILE *in = fopen("local/BestScore.dat", "rb");
     if (in) {
-        fread(&bestScore, sizeof(unsigned int), 1, in);
+        fread(&bestScore, sizeof(unsigned), 1, in);
         fclose(in);
     }
     else
@@ -82,7 +83,7 @@ int main() {
     Text scoreText;
     scoreText.setFont(font);
     scoreText.setCharacterSize(38);
-    scoreText.setPosition((float) winSizeX / 2 - 90, fieldW + margin);
+    scoreText.setPosition(winSizeX / 2 - 90, fieldW + margin);
 
     Clock clock;
     float timer = 0;
@@ -132,8 +133,8 @@ int main() {
         if (gameIsRunning){
             drawSnake(window, snakePositions, snake, dir);
             window.draw(scoreText);
-            apple.setPosition((float) applePosition.x * segmentSize + margin,
-                              (float) applePosition.y * segmentSize + margin);
+            apple.setPosition(applePosition.x * segmentSize + margin,
+                              applePosition.y * segmentSize + margin);
             window.draw(apple);
         }
         else {
@@ -157,7 +158,7 @@ int main() {
         window.display();
     }
     FILE *out = fopen("local/BestScore.dat", "wb");
-    fwrite(&bestScore, sizeof(unsigned int), 1, out);
+    fwrite(&bestScore, sizeof(unsigned), 1, out);
     fclose(out);
     return 0;
 }
@@ -187,23 +188,23 @@ void drawMenu(RenderWindow &window){
     window.draw(menuMessage);
 }
 
-void drawGameOver(RenderWindow &window, unsigned int currentScore, unsigned int bestScore){
+void drawGameOver(RenderWindow &window, unsigned currentScore, unsigned bestScore){
     deathMessage.setString("    GAME OVER\n\nYour score: " + to_string(currentScore) + "\n\nBest  score: " + to_string(bestScore));
     window.draw(deathBlock);
     window.draw(deathMessage);
 }
 
 void drawSnake(RenderWindow &window, vector<Snake> snakePositions, Sprite snake, direction dir){
-    for (int i = (int) snakePositions.size() - 1; i >= 0; i--){
+    for (int i = snakePositions.size() - 1; i >= 0; i--){
         if (i == 0) {
-            snake.setTextureRect(IntRect((int) (dir * segmentSize), segmentSize,
-                                         segmentSize, segmentSize));
+            snake.setTextureRect(IntRect(dir * segmentSize, segmentSize,
+                                                 segmentSize, segmentSize));
         }
         else {
             snake.setTextureRect(IntRect(0, 0, 40, 40));
         }
-        snake.setPosition((float) snakePositions[i].x * segmentSize + margin,
-                          (float) snakePositions[i].y * segmentSize + margin);
+        snake.setPosition(snakePositions[i].x * segmentSize + margin,
+                          snakePositions[i].y * segmentSize + margin);
         window.draw(snake);
     }
 }
