@@ -189,7 +189,8 @@ void drawMenu(RenderWindow &window){
 }
 
 void drawGameOver(RenderWindow &window, unsigned currentScore, unsigned bestScore){
-    deathMessage.setString("    GAME OVER\n\nYour score: " + to_string(currentScore) + "\n\nBest  score: " + to_string(bestScore));
+    deathMessage.setString("    GAME OVER\n\nYour score: " + to_string(currentScore)
+                                     + "\n\nBest  score: " + to_string(bestScore));
     window.draw(deathBlock);
     window.draw(deathMessage);
 }
