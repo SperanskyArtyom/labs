@@ -1,5 +1,4 @@
-#include "../pythonlib/snake.h"
-
+#include <pythonlib/snake.h>
 #include <SFML/Graphics.hpp>
 #include <ctime>
 
@@ -23,7 +22,7 @@ int main() {
     unsigned score = 0, bestScore;
     srand(time(nullptr));
 
-    FILE *in = std::fopen("local/BestScore.dat", "rb");
+    FILE *in = fopen("local/BestScore.dat", "rb");
     if (in) {
         fread(&bestScore, sizeof(unsigned int), 1, in);
         fclose(in);
@@ -53,7 +52,6 @@ int main() {
     menuBlock.setOutlineThickness(5);
 
     menuMessage.setFont(font);
-//    menuMessage.setOutlineThickness(1);
     menuMessage.setPosition((winSizeX - menuBlockW) / 2 + 25, 80);
 
     Texture snakeTexture;
@@ -84,7 +82,7 @@ int main() {
     Text scoreText;
     scoreText.setFont(font);
     scoreText.setCharacterSize(38);
-    scoreText.setPosition(220, 610);
+    scoreText.setPosition((float) winSizeX / 2 - 90, fieldW + margin);
 
     Clock clock;
     float timer = 0;
@@ -134,8 +132,8 @@ int main() {
         if (gameIsRunning){
             drawSnake(window, snakePositions, snake, dir);
             window.draw(scoreText);
-            apple.setPosition((float) applePosition.x * segmentSize + 10,
-                              (float) applePosition.y * segmentSize + 10);
+            apple.setPosition((float) applePosition.x * segmentSize + margin,
+                              (float) applePosition.y * segmentSize + margin);
             window.draw(apple);
         }
         else {
@@ -165,13 +163,17 @@ int main() {
 }
 
 void ChangeDirection(direction &dir, direction previousDir) {
-    if (Keyboard::isKeyPressed(Keyboard::Left) && previousDir != RIGHT)
+    if ((Keyboard::isKeyPressed(Keyboard::Left) || Keyboard::isKeyPressed(Keyboard::A))
+        && previousDir != RIGHT)
         dir = LEFT;
-    else if(Keyboard::isKeyPressed(Keyboard::Right) && previousDir != LEFT)
+    else if ((Keyboard::isKeyPressed(Keyboard::Right) || Keyboard::isKeyPressed(Keyboard::D))
+            && previousDir != LEFT)
         dir = RIGHT;
-    else if(Keyboard::isKeyPressed(Keyboard::Up) && previousDir != DOWN)
+    else if ((Keyboard::isKeyPressed(Keyboard::Up) || Keyboard::isKeyPressed(Keyboard::W))
+            && previousDir != DOWN)
         dir = UP;
-    else if(Keyboard::isKeyPressed(Keyboard::Down) && previousDir != UP)
+    else if ((Keyboard::isKeyPressed(Keyboard::Down) || Keyboard::isKeyPressed(Keyboard::S))
+            && previousDir != UP)
         dir = DOWN;
 }
 

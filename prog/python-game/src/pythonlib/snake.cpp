@@ -1,4 +1,4 @@
-#include "snake.h"
+#include <pythonlib/snake.h>
 #include <cstdlib>
 
 using namespace std;
