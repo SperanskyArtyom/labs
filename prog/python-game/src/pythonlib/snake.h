@@ -2,6 +2,8 @@
 
 #include <vector>
 
+using std::vector;
+
 typedef struct {
     int x, y;
 } Snake;
@@ -12,8 +14,8 @@ typedef struct {
 
 enum direction {DOWN, UP, RIGHT, LEFT};
 
-Apple spawnApple(const std::vector<Snake> &snake);
-void addSegment(std::vector<Snake> &snake);
-void snakeMove(std::vector<Snake> &snake, direction dir);
-bool isSnakeCrashed(std::vector<Snake> snake);
-bool isSnakeEatApple(std::vector<Snake> snake, Apple apple);
+Apple spawnApple(const vector<Snake> &snake);
+void addSegment(vector<Snake> &snake);
+void snakeMove(vector<Snake> &snake, direction dir);
+bool isSnakeCrashed(vector<Snake> snake);
+bool isSnakeEatApple(vector<Snake> snake, Apple apple);

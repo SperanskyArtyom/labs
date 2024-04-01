@@ -3,7 +3,7 @@
 #include <ctime>
 
 using namespace sf;
-using namespace std;
+using std::vector, std::to_string;
 
 Font font;
 RectangleShape deathBlock, menuBlock;

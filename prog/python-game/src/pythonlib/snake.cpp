@@ -1,8 +1,6 @@
 #include <pythonlib/snake.h>
 #include <cstdlib>
 
-using namespace std;
-
 Apple spawnApple(const vector<Snake> &snake) {
     Apple apple;
     int x = (int) rand() % 15;
