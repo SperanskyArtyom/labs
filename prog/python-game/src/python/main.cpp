@@ -1,6 +1,8 @@
 #include <pythonlib/snake.h>
 #include <SFML/Graphics.hpp>
 #include <ctime>
+#include <fstream>
+#include <utf8.hpp>
 
 using namespace sf;
 using std::vector, std::to_string;
@@ -23,13 +25,11 @@ int main() {
     unsigned score = 0, bestScore;
     srand(time(nullptr));
 
-    FILE *in = fopen("local/BestScore.dat", "rb");
-    if (in) {
-        fread(&bestScore, sizeof(unsigned), 1, in);
-        fclose(in);
-    }
-    else
-        bestScore = 0;
+    std::ifstream in("local/BestScore.dat", std::ios::binary);
+    if (in.is_open())
+        in.read((char *)&bestScore, sizeof (bestScore));
+    else bestScore = 0;
+    in.close();
 
     RenderWindow window(VideoMode(winSizeX, winSizeY), "Python");
     window.setFramerateLimit(60);
@@ -157,9 +157,9 @@ int main() {
 
         window.display();
     }
-    FILE *out = fopen("local/BestScore.dat", "wb");
-    fwrite(&bestScore, sizeof(unsigned), 1, out);
-    fclose(out);
+    std::ofstream out("local/BestScore.dat", std::ios::binary);
+    out.write((char*)&bestScore, sizeof(bestScore));
+    out.close();
     return 0;
 }
 

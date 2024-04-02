@@ -24,14 +24,14 @@ void snakeMove(vector<Snake> &snake, direction dir)
         snake[i].x = snake[i - 1].x;
         snake[i].y = snake[i - 1].y;
     }
-        if (dir == LEFT)
-            snake[0].x--;
-        else if (dir == RIGHT)
-            snake[0].x++;
-        else if (dir == UP)
-            snake[0].y--;
-        else if (dir == DOWN)
-            snake[0].y++;
+    if (dir == LEFT)
+        snake[0].x--;
+    else if (dir == RIGHT)
+        snake[0].x++;
+    else if (dir == UP)
+        snake[0].y--;
+    else
+        snake[0].y++;
 }
 
 bool isSnakeCrashed(vector<Snake> snake)
