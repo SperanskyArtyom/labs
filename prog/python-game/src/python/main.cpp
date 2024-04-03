@@ -1,8 +1,8 @@
 #include <pythonlib/snake.h>
+#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <ctime>
 #include <fstream>
-#include <utf8.hpp>
 
 using namespace sf;
 using std::vector, std::to_string;
@@ -55,6 +55,11 @@ int main() {
     menuMessage.setFont(font);
     menuMessage.setPosition((winSizeX - menuBlockW) / 2 + 25, 80);
 
+    direction dir = RIGHT, previousDir = RIGHT;
+    vector<Snake> startPosition = {{3, 7}, {2, 7}, {1, 7}, {0, 7}};
+    auto snakePositions = startPosition;
+    Apple applePosition = spawnApple(snakePositions);
+
     Texture snakeTexture;
     if (!snakeTexture.loadFromFile("src/image/SnakeSprite.png"))
         return 30;
@@ -65,6 +70,8 @@ int main() {
         return 30;
     Sprite apple(appleTexture);
     apple.setTextureRect(IntRect(0, 0,segmentSize, segmentSize));
+    apple.setPosition(applePosition.x * segmentSize + margin,
+                      applePosition.y * segmentSize + margin);
 
     Texture fieldTexture;
     if (!fieldTexture.loadFromFile("src/image/field.png"))
@@ -74,10 +81,12 @@ int main() {
     gameField.setPosition(margin, margin);
     gameField.setOutlineThickness(2);
 
-    direction dir = RIGHT, previousDir = RIGHT;
-    vector<Snake> startPosition = {{3, 7}, {2, 7}, {1, 7}, {0, 7}};
-    auto snakePositions = startPosition;
-    Apple applePosition = spawnApple(snakePositions);
+    SoundBuffer eatSoundBuffer, deathSoundBuffer;
+    eatSoundBuffer.loadFromFile("src/sound/eat.wav");
+    Sound eatSound, deathSound;
+    eatSound.setBuffer(eatSoundBuffer);
+    deathSoundBuffer.loadFromFile("src/sound/death.wav");
+    deathSound.setBuffer(deathSoundBuffer);
 
     font.loadFromFile("src/font/ScoreFont.otf");
     Text scoreText;
@@ -117,14 +126,19 @@ int main() {
                 snakeMove(snakePositions, dir);
                 previousDir = dir;
                 if (isSnakeCrashed(snakePositions)){
+                    deathSound.play();
                     gameIsRunning = false;
                     if (score > bestScore)
                         bestScore = score;
                 }
                 if (isSnakeEatApple(snakePositions, applePosition)) {
+                    eatSound.play();
                     addSegment(snakePositions);
                     if (snakePositions.size() != 15 * 15)
                         applePosition = spawnApple(snakePositions);
+
+                    apple.setPosition(applePosition.x * segmentSize + margin,
+                                      applePosition.y * segmentSize + margin);
                     score++;
                 }
             }
@@ -133,8 +147,6 @@ int main() {
         if (gameIsRunning){
             drawSnake(window, snakePositions, snake, dir);
             window.draw(scoreText);
-            apple.setPosition(applePosition.x * segmentSize + margin,
-                              applePosition.y * segmentSize + margin);
             window.draw(apple);
         }
         else {
@@ -145,6 +157,8 @@ int main() {
                 dir = RIGHT;
                 snakePositions = startPosition;
                 applePosition = spawnApple(snakePositions);
+                apple.setPosition(applePosition.x * segmentSize + margin,
+                                  applePosition.y * segmentSize + margin);
             }
         }
 

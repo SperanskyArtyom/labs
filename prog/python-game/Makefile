@@ -4,7 +4,7 @@ LIB_NAME = pythonlib
 CFLAGS = -Wall -Wextra -Werror
 CPPFLAGS  = -I src
 LDFLAGS =
-LDLIBS = -lsfml-graphics -lsfml-window -lsfml-system
+LDLIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 BIN_DIR = bin
 OBJ_DIR = obj
