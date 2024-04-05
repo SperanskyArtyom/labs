@@ -27,16 +27,6 @@ void AddElementToHeap(int* arr, size_t L, size_t R)
     arr[i - 1] = x, M++;
 }
 
-void CreateHeap(int* arr, size_t size)
-{
-    M = C = 0;
-    size_t i = size / 2;
-    while (i > 0) {
-        AddElementToHeap(arr, i, size);
-        i--;
-    }
-}
-
 void HeapSort(int* arr, size_t size)
 {
     M = C = 0;
