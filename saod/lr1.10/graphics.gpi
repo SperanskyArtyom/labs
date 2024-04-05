@@ -1,0 +1,12 @@
+#! /usr/bin/gnuplot -persist
+set term wxt size 1696, 870
+set xlabel 'n'
+set logscale y
+set grid xtics ytics ls -1
+set ylabel 'C+M'
+set format y "10^{%L}"
+set xtics nomirror
+set ytics nomirror
+plot 'sort.txt' using 1:2 smooth acsplines with lines ls 2 lw 2 title "ShellSort",\
+   '' using 1:3 smooth acsplines with lines ls 1 lw 2 title "HeapSort",\
+   '' using 1:4 smooth acsplines with lines ls 3 lw 2 title "QuickSort"
