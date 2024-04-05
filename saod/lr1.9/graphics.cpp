@@ -1,4 +1,4 @@
-#include <cstdio>
+#include <fstream>
 #include <cstdlib>
 #include <time.h>
 #include "heapsort.h"
@@ -8,8 +8,8 @@ extern int M, C, M2, C2;
 
 void T_sorts(int n, int &t1, int &t2)
 {
-    int *arr1 = (int *)malloc(n * sizeof(int));
-    int *arr2 = (int *)malloc(n * sizeof(int));
+    int *arr1 = new int[n];
+    int *arr2 = new int[n];
     for (int i = 0; i < n; i++)
     {
         arr1[i] = rand();
@@ -26,23 +26,25 @@ void T_sorts(int n, int &t1, int &t2)
     t2 = M + C;
     if (M + C == 0)
         t2++;
-    free(arr1);
-    free(arr2);
+    delete[] arr1;
+    delete[] arr2;
 }
 
 int main()
 {
     srand(time(NULL));
-    int N, T_shell, T_heap;
-    FILE *fp;
-    char name[] = "sort.txt";
-    fp = fopen(name, "w");
-    for (N = 10; N <= 500; N += 10)
-    {
-        T_sorts(N, T_shell, T_heap);
-        fprintf(fp, "%d\t%d\t%d\n", N, T_shell, T_heap);
-    }
-    fclose(fp);
+    int T_shell, T_heap;
+    std::string name = "sort.txt";
+    std::ofstream out;
+    out.open(name);
+    if (out.is_open())
+        for (int N = 10; N <= 500; N+= 10)
+        {
+            T_sorts(N, T_shell, T_heap);
+            out << N << "\t" << T_shell << "\t" << T_heap << "\n";
+        }
+    out.close();
+
     system("./graphics.gpi");
     return 0;
 }
