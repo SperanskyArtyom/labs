@@ -38,7 +38,7 @@ int main()
     std::ofstream out;
     out.open(name);
     if (out.is_open())
-        for (int N = 10; N <= 500; N+= 10)
+        for (int N = 500; N <= 70000; N+= 500)
         {
             T_sorts(N, T_shell, T_heap);
             out << N << "\t" << T_shell << "\t" << T_heap << "\n";

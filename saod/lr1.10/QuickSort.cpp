@@ -5,13 +5,18 @@ int M, C, maxDepth;
 void QuickSort(int* arr, int left, int right){
     static int depth = 0;
     depth++;
-    int x = arr[(left + right) / 2], i = left, j = right;
-    M++;
+    int x = arr[left], i = left, j = right;
     while (i <= j) {
-        while (++C && arr[i] < x)
+        C++;
+        while (arr[i] < x){
             i++;
-        while (++C && arr[j] > x)
+            C++;
+        }
+        C++;
+        while (arr[j] > x) {
             j--;
+            C++;
+        }
         if (i <= j){
             int temp = arr[i];
             arr[i] = arr[j];
@@ -36,7 +41,7 @@ void QuickSortV2(int* arr, int left, int right){
     static int depth = 0;
     depth++;
     while (left < right) {
-        int x = arr[(left + right) / 2], i = left, j = right;
+        int x = arr[(left+right)/2], i = left, j = right;
         while (i <= j) {
             while (++C && arr[i] < x)
                 i++;
