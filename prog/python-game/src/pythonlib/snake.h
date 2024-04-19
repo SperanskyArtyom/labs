@@ -1,19 +1,30 @@
-#pragma once
+#pragma once // Директива для исключения повторного поключения заголовочного файла
 
-#include <vector>
+#include <vector> // Подключаем библиотеку для использования векторов
 
 using std::vector;
 
-typedef struct {
+// Структура координат змейки
+typedef struct
+{
     int x, y;
 } Snake;
 
-typedef struct {
+// Структура координат яблока
+typedef struct
+{
     int x, y;
 } Apple;
 
-enum direction {DOWN, UP, RIGHT, LEFT};
+enum direction
+{
+    DOWN,
+    UP,
+    RIGHT,
+    LEFT
+}; // Перечисление направлений движения
 
+// Объявления функций
 Apple spawnApple(const vector<Snake> &snake);
 void addSegment(vector<Snake> &snake);
 void snakeMove(vector<Snake> &snake, direction dir);
