@@ -135,11 +135,11 @@ int RunNumbers(List *&head){
 void fromStackToQueue(List *&head, Queue &q){
     if (q.head == nullptr) {
         q.head = q.tail = head;
-        head = head->next;
     }
     else{
         q.tail->next = head;
         q.tail = head;
-        head = head->next;
     }
+    if (head != nullptr)
+        head = head->next;
 }
