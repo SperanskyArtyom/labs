@@ -47,3 +47,4 @@ graphics3
 main
 cmake-build-debug/
 bin/
+build/
