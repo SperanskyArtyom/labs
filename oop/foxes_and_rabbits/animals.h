@@ -30,12 +30,8 @@ public:
         age = 0;
     }
 
-    Animal()
+    Animal() : Animal({0, 0}, UP, 1)
     {
-        coordinate = {0, 0};
-        direction = UP;
-        stability = 1;
-        age = 0;
     }
 
     void change(int);
@@ -45,55 +41,61 @@ public:
         change(N);
     }
 
-    void coordinate(Point coordinate)
+    void setCoordinate(Point coordinate)
     {
         this->coordinate = coordinate;
     }
 
-    void direction(Direction direction)
+    void setDirection(Direction direction)
     {
         this->direction = direction;
     }
 
-    void stability(unsigned stability)
+    void setStability(unsigned stability)
     {
         this->stability = stability;
     }
 
-    void age(unsigned _age)
+    void setAge(unsigned _age)
     {
         this->age = _age;
     }
 
-    Point coordinate()
+    Point getCoordinate()
     {
         return coordinate;
     }
 
-    int direction()
+    int getDirection()
     {
         return direction;
     }
 
-    unsigned stability()
+    unsigned getStability()
     {
         return stability;
     }
 
-    unsigned age()
+    unsigned getAge()
     {
         return age;
     }
 };
 
-class Rabbit : Animal // Stupid suchka bitchy rabbit Varya
+class Rabbit : public Animal
 {
 private:
+    const unsigned maxAge = 10;
+
 public:
+    using Animal::Animal;
 };
 
-class Fox : Animal // I am. Sly fox
+class Fox : public Animal
 {
 private:
+    const unsigned maxAge = 15;
+
 public:
+    using Animal::Animal;
 };
