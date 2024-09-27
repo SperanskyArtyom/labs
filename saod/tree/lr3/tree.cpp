@@ -6,7 +6,7 @@ void obhod_rootLR(Vertex *p)
 {
     if (p != nullptr)
     {
-        std::cout << p->Data << '\t';
+        std::cout << p->Data << "\t ";
         obhod_rootLR(p->Left);
         obhod_rootLR(p->Right);
     }
@@ -17,7 +17,7 @@ void obhod_LrootR(Vertex *p)
     if (p != nullptr)
     {
         obhod_LrootR(p->Left);
-        std::cout << p->Data << '\t';
+        std::cout << p->Data << "\t ";
         obhod_LrootR(p->Right);
     }
 }
@@ -28,7 +28,7 @@ void obhod_LRroot(Vertex *p)
     {
         obhod_LRroot(p->Left);
         obhod_LRroot(p->Right);
-        std::cout << p->Data << '\t';
+        std::cout << p->Data << "\t ";
     }
 }
 
@@ -39,7 +39,7 @@ int size(Vertex *p)
     return 1 + size(p->Left) + size(p->Right);
 }
 
-int summary(Vertex *p)
+long long summary(Vertex *p)
 {
     if (p == nullptr)
         return 0;
@@ -133,4 +133,73 @@ void fillIndexes(Vertex *p, int idx, int h, int height)
         fillIndexes(p->Left, idx * 2, h + 1, height);
         fillIndexes(p->Right, idx * 2 + 1, h + 1, height);
     }
+}
+
+void indexObhod_rootLR(Vertex *p)
+{
+    if (p != nullptr)
+    {
+        std::cout << p->Index << "\t ";
+        indexObhod_rootLR(p->Left);
+        indexObhod_rootLR(p->Right);
+    }
+}
+
+void indexObhod_LrootR(Vertex *p)
+{
+    if (p != nullptr)
+    {
+        indexObhod_LrootR(p->Left);
+        std::cout << p->Index << "\t ";
+        indexObhod_LrootR(p->Right);
+    }
+}
+
+void addToSDP(Vertex *&root, int data)
+{
+    Vertex **p = &root;
+    while (*p != nullptr)
+    {
+        if (data < (*p)->Data)
+            p = &((*p)->Left);
+        else if (data > (*p)->Data)
+            p = &((*p)->Right);
+        else
+            return;
+    }
+    (*p) = new Vertex;
+    (*p)->Data = data;
+    (*p)->Left = nullptr;
+    (*p)->Right = nullptr;
+}
+
+void addToSDPv2(Vertex *&p, int data)
+{
+    if (p == nullptr)
+    {
+        p = new Vertex;
+        p->Data = data;
+        p->Left = nullptr;
+        p->Right = nullptr;
+    }
+    else if (data < p->Data)
+        addToSDPv2(p->Left, data);
+    else if (data > p->Data)
+        addToSDPv2(p->Right, data);
+}
+
+Vertex *createSDP(int *arr, int size)
+{
+    Vertex *root = nullptr;
+    for (int i = 0; i < size; i++)
+        addToSDP(root, arr[i]);
+    return root;
+}
+
+Vertex *createSDPv2(int *arr, int size)
+{
+    Vertex *root = nullptr;
+    for (int i = 0; i < size; i++)
+        addToSDPv2(root, arr[i]);
+    return root;
 }

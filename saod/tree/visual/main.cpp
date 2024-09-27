@@ -11,12 +11,12 @@ sf::VertexArray lines(sf::Lines, 2);
 
 int main()
 {
-    const int n = 25;
+    const int n = 100;
     int A[n];
     for (int i = 0; i < n; i++)
         A[i] = i + 1;
     auto root = createISDP(A, 0, n - 1);
-
+    fillIndexes(root, 1, 1, height(root));
     drawTree(root);
     return 0;
 }
@@ -25,12 +25,22 @@ void drawTree(Vertex *root)
 {
     font.loadFromFile("futurabookc.ttf");
     text.setFont(font);
-    text.setCharacterSize(24);
+    text.setCharacterSize(20);
     text.setColor(sf::Color::Black);
     lines[0].color = sf::Color::Black;
     lines[1].color = sf::Color::Black;
     int h = height(root);
-    int winSizeY = (h + 1) * 100, winSizeX = pow(2, h) * 40;
+    int k;
+    if (h < 6)
+        k = 40;
+    else if (h > 6)
+    {
+        text.setCharacterSize(12);
+        k = 10;
+    }
+    else
+        k = 20;
+    int winSizeY = (h + 1) * 100, winSizeX = pow(2, h) * k;
     sf::RenderWindow window(sf::VideoMode(winSizeX, winSizeY), L"Дерево");
 
     window.clear(sf::Color::White);
@@ -55,7 +65,7 @@ void drawVertex(sf::RenderWindow &win, Vertex *p, int L, int R, int h)
     int y = 85 + 100 * h;
     std::string strData = std::to_string(p->Data);
     text.setPosition(x - 7 * strData.length(), y - 14);
-    text.setString(std::to_string(p->Data));
+    text.setString(std::to_string(p->Index));
     win.draw(text);
     if (p->Left != nullptr)
     {
