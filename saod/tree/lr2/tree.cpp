@@ -105,3 +105,52 @@ Vertex *createISDP(int *sortedArr, int L, int R)
     p->Right = createISDP(sortedArr, m + 1, R);
     return p;
 }
+
+int plus = 0;
+
+void fillIndexes(Vertex *p, int idx, int h, int height)
+{
+    if (h == height - 1)
+    {
+        p->Index = idx;
+        if (plus == 0)
+        {
+            plus = idx * 2;
+        }
+        if (p->Left != NULL)
+        {
+            (p->Left)->Index = plus++;
+        }
+        if (p->Right != NULL)
+        {
+            (p->Right)->Index = plus++;
+        }
+        return;
+    }
+    else
+    {
+        p->Index = idx;
+        fillIndexes(p->Left, idx * 2, h + 1, height);
+        fillIndexes(p->Right, idx * 2 + 1, h + 1, height);
+    }
+}
+
+void indexObhod_rootLR(Vertex *p)
+{
+    if (p != nullptr)
+    {
+        std::cout << p->Index << '\t';
+        indexObhod_rootLR(p->Left);
+        indexObhod_rootLR(p->Right);
+    }
+}
+
+void indexObhod_LrootR(Vertex *p)
+{
+    if (p != nullptr)
+    {
+        indexObhod_LrootR(p->Left);
+        std::cout << p->Index << '\t';
+        indexObhod_LrootR(p->Right);
+    }
+}
