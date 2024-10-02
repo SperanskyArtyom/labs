@@ -5,14 +5,18 @@
 class Fox : public Animal
 {
 private:
-    const unsigned maxAge = 15;
+    const static inline unsigned maxAge = 15;
+    unsigned parentsAge = 0;
 
 public:
     using Animal::Animal;
+    Fox(const Fox &parent) : Animal(parent) { parentsAge = parent.getAge(); }
 
     void move() override
     {
-        this->changeCoord(2);
+        changeCoord(2);
         Animal::move();
     }
+
+    unsigned getParentsAge() { return parentsAge; }
 };

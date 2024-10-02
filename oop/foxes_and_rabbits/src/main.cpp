@@ -4,7 +4,7 @@
 #include <vector>
 #include <typeinfo>
 
-void initialData(std::string, unsigned &, unsigned &, unsigned &, vector<Rabbit> &, vector<Fox> &);
+Model setModel(std::string filename);
 
 int main(int argc, char *argv[])
 {
@@ -17,22 +17,28 @@ int main(int argc, char *argv[])
     unsigned N, M, moves;
     vector<Rabbit> rabbits;
     vector<Fox> foxes;
-    initialData(filename, N, M, moves, rabbits, foxes);
+    Model model = setModel(filename);
 
-    Model model(N, M, moves);
-    model.setAnimals(rabbits, foxes);
+    while (model.getMoves() != 0)
+    {
+        model.print();
+        model.move();
+    }
 
     return 0;
 }
 
-void initialData(std::string filename, unsigned &N, unsigned &M, unsigned &moves, vector<Rabbit> &rabbits, vector<Fox> &foxes)
+Model setModel(std::string filename)
 {
     std::ifstream input(filename);
 
-    unsigned R, F, stabilityBuf, dirBuf;
+    unsigned R, F, stabilityBuf, dirBuf, N, M, moves;
     int xBuf, yBuf;
+    vector<Rabbit> rabbits;
+    vector<Fox> foxes;
 
-    input >> N >> M >> moves >> R >> F;
+    input >>
+        N >> M >> moves >> R >> F;
 
     for (int i = 0; i < R; i++)
     {
@@ -44,4 +50,7 @@ void initialData(std::string filename, unsigned &N, unsigned &M, unsigned &moves
         input >> xBuf >> yBuf >> dirBuf >> stabilityBuf;
         foxes.push_back(Fox({xBuf, yBuf}, (Direction)dirBuf, stabilityBuf));
     }
+    Model model(N, M, moves);
+    model.setAnimals(rabbits, foxes);
+    return model;
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Model.h>
+
 struct Point
 {
     int x, y;
@@ -15,6 +17,8 @@ enum Direction
 
 class Animal
 {
+    friend class Model;
+
 protected:
     Point coordinate;
     Direction direction;
@@ -40,58 +44,35 @@ protected:
             break;
         }
     }
-
-    void changeDir()
-    {
-        if (direction == LEFT)
-            direction = UP;
-        else
-            direction = (Direction)(direction + 1);
-    }
+    void changeDir() { direction = (Direction)((direction + 1) % 4); }
 
 public:
-    Animal(Point coordinate = {0, 0}, Direction direction = UP, unsigned stability = 1) : stability{stability}
+    Animal(Point coordinate = {0, 0}, Direction direction = UP, unsigned stability = 1)
+        : stability{stability}
     {
         this->coordinate = coordinate;
         this->direction = direction;
     }
+    Animal(const Animal &animal) : Animal(animal.coordinate, animal.direction, animal.stability) {}
 
     virtual void move()
     {
         if (++dStability == stability)
         {
             dStability = 0;
-            this->changeDir();
+            changeDir();
         }
     }
 
-    void setCoordinate(Point coordinate)
-    {
-        this->coordinate = coordinate;
-    }
+    void setCoordinate(Point coordinate) { this->coordinate = coordinate; }
 
-    void setDirection(Direction direction)
-    {
-        this->direction = direction;
-    }
+    void setDirection(Direction direction) { this->direction = direction; }
 
-    Point getCoordinate()
-    {
-        return coordinate;
-    }
+    Point getCoordinate() const { return coordinate; }
 
-    int getDirection()
-    {
-        return direction;
-    }
+    int getDirection() const { return direction; }
 
-    unsigned getStability()
-    {
-        return stability;
-    }
+    unsigned getStability() const { return stability; }
 
-    unsigned getAge()
-    {
-        return age;
-    }
+    unsigned getAge() const { return age; }
 };
