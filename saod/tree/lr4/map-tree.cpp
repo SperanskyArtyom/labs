@@ -22,8 +22,14 @@ int main()
             if (binary_search(KEYWORDS, bufer, KEYWORDS_NUMBER))
                 foundedKeywords.push_back(bufer);
         }
+    else
+    {
+        std::cout << "Файл не найден\n";
+        return -1;
+    }
     in.close();
     Vertex *root = createSDP(foundedKeywords);
+    std::cout << "Словарь ключевых слов и их частот:\n";
     printVertexMap(root);
 
     return 0;
