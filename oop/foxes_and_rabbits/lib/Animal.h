@@ -19,13 +19,14 @@ class Animal
 {
     friend class Model;
 
-protected:
+private:
     Point coordinate;
     Direction direction;
     const unsigned stability;
     unsigned age = 0;
     unsigned dStability = 0;
 
+protected:
     void changeCoord(int N)
     {
         switch (direction)
