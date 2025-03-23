@@ -6,7 +6,7 @@
 int main()
 {
     srand(time(NULL));
-    int n = 10;
+    int n = 30;
     int A[n];
     FillRand(A, n);
 

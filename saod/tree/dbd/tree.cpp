@@ -452,6 +452,7 @@ Vertex *createDBD(int *arr, int n, bool &VR, bool &HR)
     {
         int data = arr[i];
         B2INSERT(root, data, VR, HR);
+        i++;
     }
     return root;
 }

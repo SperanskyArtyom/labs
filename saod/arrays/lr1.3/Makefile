@@ -30,5 +30,3 @@ run:
 	clear
 	./main
 	./table
-	./graphics
-	./graphics.gpi

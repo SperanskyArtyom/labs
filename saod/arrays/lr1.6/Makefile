@@ -30,4 +30,3 @@ run:
 	clear
 	./table1
 	./table2
-	./graphics

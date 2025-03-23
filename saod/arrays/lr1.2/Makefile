@@ -22,8 +22,6 @@ run: all
 	clear
 	./table
 	clear
-	./graphics
-	./bubblesort.gpi
 graph: graphics
 	./graphics
 	./bubblesort.gpi

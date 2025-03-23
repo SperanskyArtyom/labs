@@ -38,6 +38,3 @@ run:
 	clear
 	./table1
 	./table2
-	./graphics
-	./graphics2
-	./graphics3

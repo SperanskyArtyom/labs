@@ -33,4 +33,3 @@ graph:
 
 run:
 	./table
-	./graphics

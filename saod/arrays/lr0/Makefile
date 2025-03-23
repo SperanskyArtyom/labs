@@ -7,7 +7,10 @@ main.o: main.c
 
 service_procedures.o: service_procedures.c
 
-.PHONY: clean
+.PHONY: clean run
 
 clean:
 	rm -rf *.o lr1
+
+run:
+	./lr1

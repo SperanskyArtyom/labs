@@ -14,7 +14,10 @@ selectsort.o: selectsort.c
 
 graphics.o: graphics.c
 
-.PHONY: clean
+.PHONY: clean run
 
 clean:
 	rm -rf *.o
+	
+run:
+	./lr2

@@ -33,8 +33,8 @@ void ObhodLR(Vertex *root)
 {
     if (root != NULL)
     {
-        printf("%d ", root->data);
         ObhodLR(root->L);
+        printf("%d ", root->data);
         ObhodLR(root->R);
     }
 }
